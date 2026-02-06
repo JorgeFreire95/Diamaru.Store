@@ -504,6 +504,48 @@ La aplicación está **completamente optimizada** para todos los dispositivos co
 - ORM: **SQLAlchemy**
 - Migrations: Automáticas con Alembic
 
+### Modelo Relacional
+
+```mermaid
+erDiagram
+    PRODUCTS ||--o{ ORDER_ITEMS : contains
+    ORDERS ||--|{ ORDER_ITEMS : includes
+    ADMINS
+
+    PRODUCTS {
+        int id PK
+        string name
+        string description
+        float price
+        string type "painting/book"
+        string details
+        string image_url "Base64 Data URI"
+        string file_url "Base64 Data URI"
+        datetime created_at
+    }
+
+    ORDERS {
+        int id PK
+        string customer_name
+        string customer_email
+        string customer_phone
+        string customer_address
+        json items
+        float total
+        string status
+        datetime created_at
+    }
+
+    ADMINS {
+        int id PK
+        string username
+        string hashed_password
+        string email
+        boolean is_active
+        datetime created_at
+    }
+```
+
 ### Esquemas de Datos
 
 #### Tabla: Products
@@ -515,8 +557,8 @@ CREATE TABLE products (
   price            FLOAT NOT NULL,
   type             VARCHAR,  -- "painting" o "book"
   details          VARCHAR,
-  image_url        VARCHAR,  -- URL local /uploads/products/...
-  file_url         VARCHAR,  -- URL PDF /uploads/books/...
+  image_url        VARCHAR,  -- Almacenado como Base64 Data URI
+  file_url         VARCHAR,  -- Almacenado como Base64 Data URI (PDF)
   created_at       DATETIME
 );
 ```
@@ -549,70 +591,35 @@ CREATE TABLE admins (
 ```
 
 ### Relaciones
-- Cada producto se puede agregar a múltiples órdenes
-- Las órdenes tienen referencias a múltiples productos
-- Los admins solo tiene relación con productos que crean
+- **Productos - Órdenes**: Relación N:M gestionada a través del campo JSON `items` en la tabla `Orders`, que almacena una instantánea de los productos al momento de la compra.
+- **Admins**: Tabla independiente para gestión de acceso al panel de control.
 
 ---
 
 ## 📤 Sistema de Upload
 
+### Almacenamiento en Base de Datos
+El proyecto implementa un sistema moderno de almacenamiento donde los archivos (imágenes y PDFs) se convierten a **Base64** y se guardan directamente en la base de datos SQLite. Esto facilita la portabilidad y backup del proyecto.
+
 ### Imágenes de Cuadros
 
 **Endpoint**: `POST /admin/upload-image`
 
-```javascript
-const formData = new FormData();
-formData.append('file', imageFile);
-formData.append('token', jwtToken);
-
-const response = await fetch('http://localhost:8000/admin/upload-image', {
-  method: 'POST',
-  headers: {
-    'Authorization': `Bearer ${token}`
-  },
-  body: formData
-});
-
-const data = await response.json();
-// Retorna: { file_url: "/uploads/products/uuid.jpg" }
-```
+Procesa la imagen y retorna un Data URI listo para ser usado en etiquetas `<img>`.
 
 **Requisitos**:
-- Formato: JPG, PNG, GIF
-- Tamaño máximo: 5MB
-- Autenticación: JWT requerida
-
-**Almacenamiento**: `backend/uploads/products/`
+- Formato: JPG, PNG, GIF, WEBP
+- Retorno: String Base64 (ej: `data:image/jpeg;base64,/9j/4AAQ...`)
 
 ### PDFs de Libros
 
 **Endpoint**: `POST /admin/upload-book`
 
-```javascript
-const formData = new FormData();
-formData.append('file', pdfFile);
-formData.append('token', jwtToken);
-
-const response = await fetch('http://localhost:8000/admin/upload-book', {
-  method: 'POST',
-  headers: {
-    'Authorization': `Bearer ${token}`
-  },
-  body: formData
-});
-
-const data = await response.json();
-// Retorna: { file_url: "/uploads/books/uuid.pdf" }
-```
+Procesa el archivo PDF y retorna un Data URI para almacenamiento.
 
 **Requisitos**:
 - Formato: PDF únicamente
-- Tamaño máximo: 50MB
-- Autenticación: JWT requerida
-- Upload en chunks de 1MB
-
-**Almacenamiento**: `backend/uploads/books/`
+- Retorno: String Base64 (ej: `data:application/pdf;base64,JVBERi...`)
 
 ### Validación en Frontend
 
