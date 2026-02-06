@@ -26,13 +26,17 @@ function ProductForm({ product, onSave, onCancel }) {
     }
   }, [product])
 
-  const validate = () => {
+  /* 
+   Modificado para aceptar datos opcionales, permitiendo validar 
+   los datos actualizados antes de que el estado se actualice 
+  */
+  const validate = (data = formData) => {
     const newErrors = {}
 
-    if (!formData.title.trim()) newErrors.title = 'El título es requerido'
-    if (!formData.description.trim()) newErrors.description = 'La descripción es requerida'
-    if (!formData.price || formData.price <= 0) newErrors.price = 'El precio debe ser mayor a 0'
-    if (!formData.image_url.trim() && !imageFile) newErrors.image_url = 'La imagen es requerida'
+    if (!data.title.trim()) newErrors.title = 'El título es requerido'
+    if (!data.description.trim()) newErrors.description = 'La descripción es requerida'
+    if (!data.price || data.price <= 0) newErrors.price = 'El precio debe ser mayor a 0'
+    if (!data.image_url.trim() && !imageFile) newErrors.image_url = 'La imagen es requerida'
 
     return newErrors
   }
@@ -95,8 +99,11 @@ function ProductForm({ product, onSave, onCancel }) {
     }
   }
 
+  /* 
+   Retorna la URL de la imagen si tiene éxito, o null si falla.
+  */
   const uploadImage = async () => {
-    if (!imageFile) return
+    if (!imageFile) return null
 
     setUploading(true)
     try {
@@ -115,26 +122,32 @@ function ProductForm({ product, onSave, onCancel }) {
         }
       )
 
+      const imageUrl = response.data.url
+
+      // Actualizamos estado también para mantener consistencia
       setFormData(prev => ({
         ...prev,
-        image_url: response.data.url
+        image_url: imageUrl
       }))
 
       setImageFile(null)
       alert('✅ Imagen subida exitosamente')
-      
-      return true
+
+      return imageUrl
     } catch (error) {
       console.error('Error al subir imagen:', error)
       alert('❌ Error al subir la imagen: ' + (error.response?.data?.detail || error.message))
-      return false
+      return null
     } finally {
       setUploading(false)
     }
   }
 
+  /* 
+   Retorna la URL del PDF si tiene éxito, o null si falla.
+  */
   const uploadBook = async () => {
-    if (!pdfFile) return true // Si no hay PDF, continuar
+    if (!pdfFile) return null
 
     setUploading(true)
     try {
@@ -153,20 +166,23 @@ function ProductForm({ product, onSave, onCancel }) {
         }
       )
 
+      const fileUrl = response.data.url
+
+      // Actualizamos estado también para mantener consistencia
       setFormData(prev => ({
         ...prev,
-        file_url: response.data.url
+        file_url: fileUrl
       }))
 
       setPdfFile(null)
       setPdfFileName(null)
       alert('✅ PDF subido exitosamente')
-      
-      return true
+
+      return fileUrl
     } catch (error) {
       console.error('Error al subir PDF:', error)
       alert('❌ Error al subir el PDF: ' + (error.response?.data?.detail || error.message))
-      return false
+      return null
     } finally {
       setUploading(false)
     }
@@ -175,22 +191,28 @@ function ProductForm({ product, onSave, onCancel }) {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
+    // Copia de los datos actuales del formulario
+    let updatedFormData = { ...formData }
+
     // Si hay una imagen nueva, subirla primero
     if (imageFile) {
-      const success = await uploadImage()
-      if (!success) return
+      const imageUrl = await uploadImage()
+      if (!imageUrl) return // Detener si falla la subida
+      updatedFormData.image_url = imageUrl
     }
 
     // Si hay un PDF nuevo, subirlo
     if (pdfFile) {
-      const success = await uploadBook()
-      if (!success) return
+      const fileUrl = await uploadBook()
+      if (!fileUrl) return // Detener si falla la subida
+      updatedFormData.file_url = fileUrl
     }
 
-    const newErrors = validate()
+    // Validar usando los datos actualizados (con las URLs nuevas)
+    const newErrors = validate(updatedFormData)
 
     if (Object.keys(newErrors).length === 0) {
-      onSave(formData)
+      onSave(updatedFormData)
       setFormData({
         title: '',
         description: '',
@@ -256,7 +278,7 @@ function ProductForm({ product, onSave, onCancel }) {
           </div>
 
           <div className="form-group">
-            <label htmlFor="price">Precio ($) *</label>
+            <label htmlFor="price">Precio (CLP) *</label>
             <input
               type="number"
               id="price"

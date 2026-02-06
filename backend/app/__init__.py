@@ -32,9 +32,9 @@ app.add_middleware(
 )
 
 # Servir archivos estáticos
-uploads_path = Path("backend/uploads")
-if uploads_path.exists():
-    app.mount("/uploads", StaticFiles(directory=str(uploads_path)), name="uploads")
+uploads_path = Path("uploads")
+uploads_path.mkdir(parents=True, exist_ok=True)
+app.mount("/uploads", StaticFiles(directory=str(uploads_path)), name="uploads")
 
 # Incluir rutas
 app.include_router(products.router)

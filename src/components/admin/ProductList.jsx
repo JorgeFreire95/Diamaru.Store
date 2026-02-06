@@ -32,15 +32,17 @@ function ProductList({ products, onEdit, onDelete }) {
               <tr key={product.id}>
                 <td className="id-cell">#{product.id}</td>
                 <td className="image-cell">
-                  <img src={product.image_url} alt={product.title} />
+                  <img src={product.image_url} alt={product.name} />
                 </td>
-                <td className="title-cell">{product.title}</td>
+                <td className="title-cell">{product.name}</td>
                 <td className="category-cell">
-                  <span className={`badge badge-${product.category}`}>
-                    {product.category === 'painting' ? '🖼️ Cuadro' : '📚 Libro'}
+                  <span className={`badge badge-${product.type}`}>
+                    {product.type === 'painting' ? '🖼️ Cuadro' : '📚 Libro'}
                   </span>
                 </td>
-                <td className="price-cell">${product.price}</td>
+                <td className="price-cell">
+                  {new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP' }).format(product.price)}
+                </td>
                 <td className="description-cell">
                   {product.description.substring(0, 50)}...
                 </td>

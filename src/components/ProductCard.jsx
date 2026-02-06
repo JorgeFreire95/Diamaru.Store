@@ -4,7 +4,9 @@ function ProductCard({ product, onAddToCart }) {
   return (
     <div className="product-card card">
       <div className="product-image">
-        {product.type === 'book' ? (
+        {product.image_url ? (
+          <img src={product.image_url} alt={product.name} className="product-img" />
+        ) : product.type === 'book' ? (
           <div className="book-placeholder">📖</div>
         ) : (
           <div className="painting-placeholder">🖼️</div>
@@ -15,7 +17,9 @@ function ProductCard({ product, onAddToCart }) {
         <p className="product-type">{product.type === 'book' ? 'Libro PDF' : 'Cuadro'}</p>
         <p className="product-description">{product.description}</p>
         <div className="product-footer">
-          <span className="product-price">${product.price}</span>
+          <span className="product-price">
+            {new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP' }).format(product.price)}
+          </span>
           <button className="btn btn-primary btn-sm" onClick={() => onAddToCart(product)}>
             Agregar al carrito
           </button>

@@ -13,9 +13,9 @@ from pathlib import Path
 router = APIRouter(prefix="/admin", tags=["admin"])
 
 # Carpeta para guardar las imágenes
-UPLOAD_DIR = Path("backend/uploads/products")
+UPLOAD_DIR = Path("uploads/products")
 # Carpeta para guardar los PDFs
-UPLOAD_BOOKS_DIR = Path("backend/uploads/books")
+UPLOAD_BOOKS_DIR = Path("uploads/books")
 
 
 # Dependency para obtener el admin actual
@@ -65,6 +65,9 @@ async def upload_image(
     unique_filename = f"{uuid.uuid4()}{file_extension}"
     file_path = UPLOAD_DIR / unique_filename
     
+    # Asegurar que el directorio existe
+    UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+    
     try:
         # Guardar archivo
         with open(file_path, "wb") as buffer:
@@ -101,6 +104,9 @@ async def upload_book(
     import uuid
     unique_filename = f"{uuid.uuid4()}.pdf"
     file_path = UPLOAD_BOOKS_DIR / unique_filename
+    
+    # Asegurar que el directorio existe
+    UPLOAD_BOOKS_DIR.mkdir(parents=True, exist_ok=True)
     
     try:
         # Guardar archivo
