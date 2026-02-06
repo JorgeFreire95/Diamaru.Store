@@ -118,6 +118,7 @@
   width: 30px;
   font-size: 14px;
   -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 .item-quantity input::-webkit-outer-spin-button,
