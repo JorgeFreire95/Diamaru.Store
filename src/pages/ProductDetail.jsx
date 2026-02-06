@@ -58,7 +58,7 @@ function ProductDetail({ setCartCount }) {
           <div className="detail-info">
             <h1>{product.name}</h1>
             <p className="detail-type">
-              {product.type === 'book' ? 'Libro PDF' : 'Cuadro'}
+              {product.type === 'book' ? 'Libro' : 'Cuadro'}
             </p>
             <p className="detail-description">{product.description}</p>
 

@@ -23,7 +23,7 @@ function Home() {
         </div>
         <div className="feature-card">
           <span className="feature-icon">📖</span>
-          <h3>Libros Digitales</h3>
+          <h3>Libros</h3>
           <p>Miles de títulos en formato PDF disponibles instantáneamente</p>
         </div>
         <div className="feature-card">

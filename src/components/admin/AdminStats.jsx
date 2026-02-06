@@ -22,7 +22,7 @@ function AdminStats({ stats }) {
       <div className="stat-card">
         <div className="stat-icon">📚</div>
         <div className="stat-info">
-          <p className="stat-label">Libros PDF</p>
+          <p className="stat-label">Libros</p>
           <p className="stat-value">{stats.total_books}</p>
         </div>
       </div>

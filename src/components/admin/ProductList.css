@@ -21,13 +21,21 @@
 }
 
 .table-responsive {
+  width: 100%;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  /* Smooth scrolling on iOS */
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
   font-size: 14px;
+  min-width: 600px;
+  /* Force table to scroll if smaller than this */
+  background: white;
 }
 
 thead {
@@ -40,11 +48,13 @@ th {
   text-align: left;
   font-weight: 600;
   color: var(--text-color);
+  white-space: nowrap;
 }
 
 td {
   padding: 15px;
   border-bottom: 1px solid var(--border-color);
+  vertical-align: middle;
 }
 
 tbody tr:hover {
@@ -54,6 +64,7 @@ tbody tr:hover {
 .id-cell {
   color: #999;
   font-weight: 600;
+  width: 50px;
 }
 
 .image-cell {
@@ -65,6 +76,7 @@ tbody tr:hover {
   height: 60px;
   object-fit: cover;
   border-radius: 4px;
+  display: block;
 }
 
 .title-cell {
@@ -77,6 +89,7 @@ tbody tr:hover {
 
 .category-cell {
   text-align: center;
+  width: 100px;
 }
 
 .badge {
@@ -85,6 +98,7 @@ tbody tr:hover {
   border-radius: 20px;
   font-size: 12px;
   font-weight: 600;
+  white-space: nowrap;
 }
 
 .badge-painting {
@@ -100,19 +114,25 @@ tbody tr:hover {
 .price-cell {
   font-weight: 600;
   color: #27ae60;
+  width: 100px;
 }
 
 .description-cell {
   color: #666;
-  max-width: 250px;
+  max-width: 200px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .actions-cell {
+  width: 100px;
+  text-align: center;
+}
+
+.actions-cell div {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   justify-content: center;
 }
 
@@ -150,173 +170,46 @@ tbody tr:hover {
   color: white;
 }
 
-@media (max-width: 1024px) {
-  table {
-    font-size: 13px;
-  }
-  
-  th, td {
-    padding: 12px;
-  }
-}
-
 @media (max-width: 768px) {
   .product-list h2 {
     font-size: 18px;
   }
-  
-  table {
-    font-size: 12px;
-  }
-  
-  th, td {
-    padding: 10px 8px;
+
+  th,
+  td {
+    padding: 12px 10px;
   }
 
   .description-cell {
-    display: none;
-  }
-
-  .image-cell img {
-    width: 35px;
-    height: 35px;
-  }
-
-  .title-cell {
-    max-width: 80px;
-  }
-  
-  .btn-small {
-    width: 32px;
-    height: 32px;
-    font-size: 16px;
+    max-width: 150px;
   }
 }
 
 @media (max-width: 480px) {
-  .product-list h2 {
-    font-size: 16px;
-  }
-  
-  .table-responsive {
-    overflow-x: auto;
-  }
-  
-  table {
-    font-size: 11px;
-    min-width: 500px;
-  }
-  
-  th, td {
-    padding: 8px 6px;
-  }
-  
+
+  /* En pantallas muy pequeñas, podemos ocultar columnas menos importantes */
   .description-cell {
     display: none;
-  }
-  
-  .image-cell {
-    display: none;
-  }
-  
-  .image-cell img {
-    width: 30px;
-    height: 30px;
-  }
-  
-  .title-cell {
-    max-width: 60px;
-    font-size: 10px;
-  }
-  
-  .price-cell {
-    font-size: 10px;
-  }
-  
-  .btn-small {
-    width: 28px;
-    height: 28px;
-    font-size: 14px;
-  }
-}
-
-@media (max-width: 320px) {
-  .table-responsive {
-    font-size: 9px;
-  }
-  
-  th, td {
-    padding: 6px 4px;
-  }
-  
-  .btn-small {
-    width: 24px;
-    height: 24px;
-    font-size: 12px;
-  }
-}.empty-state {
-    padding: 40px 15px;
-  }
-  
-  .empty-state p:first-child {
-    font-size: 24px;
-  }
-  
-  .empty-state p:last-child {
-    font-size: 14px;
-  }
-  
-  table {
-    font-size: 11px;
-  }
-  
-  th {
-    font-size: 10px;
-    padding: 8px 4px;
-  }
-
-  td {
-    padding: 8px 4px;
   }
 
   .id-cell {
     display: none;
   }
-  
-  .description-cell {
-    display: none;
+
+  th,
+  td {
+    padding: 10px 8px;
+    font-size: 13px;
   }
 
   .image-cell img {
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
   }
 
-  .title-cell {
-    max-width: 60px;
-    font-size: 10px;
-  }
-  
-  .price-cell {
-    font-size: 10px;
-  }
-  
-  .category-cell {
-    display: none;
-  }
-  
-  .badge {
-    padding: 2px 6px;
-    font-size: 9px;
-  }
-  
   .btn-small {
-    width: 28px;
-    height: 28px;
+    width: 30px;
+    height: 30px;
     font-size: 14px;
-  }
-  
-  .actions-cell {
-    gap: 4px;
   }
 }

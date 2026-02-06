@@ -273,7 +273,7 @@ function ProductForm({ product, onSave, onCancel }) {
               onChange={handleChange}
             >
               <option value="painting">🖼️ Cuadro</option>
-              <option value="book">📚 Libro PDF</option>
+              <option value="book">📚 Libro</option>
             </select>
           </div>
 

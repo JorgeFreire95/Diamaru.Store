@@ -6,6 +6,7 @@ import './Checkout.css'
 function Checkout() {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
+  // Estado inicial sin datos de tarjeta
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -13,10 +14,7 @@ function Checkout() {
     phone: '',
     address: '',
     city: '',
-    zipCode: '',
-    cardNumber: '',
-    cardExpiry: '',
-    cardCVC: '',
+    zipCode: ''
   })
 
   const handleChange = (e) => {
@@ -35,21 +33,45 @@ function Checkout() {
       const cart = JSON.parse(localStorage.getItem('cart')) || []
       const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)
 
+      // 1. Guardar en Base de Datos
       const orderData = {
         customer: formData,
         items: cart,
-        total: total * 1.16,
-        status: 'completed',
+        total: total, // Sin impuesto extra
+        status: 'pending', // Estado pendiente hasta confirmar por WhatsApp/Pago
       }
 
       await orderService.createOrder(orderData)
-      
+
+      // 2. Generar mensaje de WhatsApp
+      const phoneNumber = "56975333778"
+      let message = `Hola! 👋 Quisiera confirmar mi pedido #${Math.floor(Math.random() * 10000)} en Diamaru Store.\n\n`
+      message += `👤 *Cliente:* ${formData.firstName} ${formData.lastName}\n`
+      message += `📍 *Dirección:* ${formData.address}, ${formData.city}\n`
+      message += `📞 *Teléfono:* ${formData.phone}\n\n`
+      message += `*Detalle del pedido:*\n`
+
+      cart.forEach(item => {
+        const precioFormato = new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP' }).format(item.price)
+        message += `📦 ${item.quantity} x ${item.name} (${precioFormato})\n`
+      })
+
+      message += `\n💰 *Total a pagar: ${new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP' }).format(total)}*`
+      message += `\n\nQuedo atento para coordinar el pago y envío. Gracias!`
+
+      // 3. Limpiar carrito y redirigir
       localStorage.removeItem('cart')
-      alert('¡Compra realizada exitosamente!')
+
+      // Abrir WhatsApp
+      const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`
+      window.open(whatsappUrl, '_blank')
+
+      alert('¡Pedido registrado! Se abrirá WhatsApp para finalizar la coordinación.')
       navigate('/')
+
     } catch (error) {
       console.error('Error:', error)
-      alert('Error al procesar la compra')
+      alert('Error al procesar el pedido')
     } finally {
       setLoading(false)
     }
@@ -58,11 +80,11 @@ function Checkout() {
   return (
     <main className="checkout-page">
       <div className="container">
-        <h1>Checkout</h1>
+        <h1>Finalizar Pedido</h1>
 
         <div className="checkout-grid">
           <form className="checkout-form" onSubmit={handleSubmit}>
-            <h2>Información Personal</h2>
+            <h2>Datos de Envío y Contacto</h2>
             <div className="form-row">
               <input
                 type="text"
@@ -100,11 +122,10 @@ function Checkout() {
               onChange={handleChange}
             />
 
-            <h2>Dirección de Envío</h2>
             <input
               type="text"
               name="address"
-              placeholder="Dirección"
+              placeholder="Dirección completa"
               required
               value={formData.address}
               onChange={handleChange}
@@ -122,51 +143,25 @@ function Checkout() {
               <input
                 type="text"
                 name="zipCode"
-                placeholder="Código Postal"
-                required
+                placeholder="Código Postal (Opcional)"
                 value={formData.zipCode}
                 onChange={handleChange}
               />
             </div>
 
-            <h2>Información de Pago</h2>
-            <input
-              type="text"
-              name="cardNumber"
-              placeholder="Número de Tarjeta"
-              required
-              value={formData.cardNumber}
-              onChange={handleChange}
-              maxLength="16"
-            />
-
-            <div className="form-row">
-              <input
-                type="text"
-                name="cardExpiry"
-                placeholder="MM/YY"
-                required
-                value={formData.cardExpiry}
-                onChange={handleChange}
-                maxLength="5"
-              />
-              <input
-                type="text"
-                name="cardCVC"
-                placeholder="CVC"
-                required
-                value={formData.cardCVC}
-                onChange={handleChange}
-                maxLength="3"
-              />
+            <div className="checkout-info-box" style={{ background: '#f0f9ff', padding: '15px', borderRadius: '8px', marginBottom: '20px', border: '1px solid #bae6fd' }}>
+              <p style={{ margin: 0, color: '#0369a1', fontSize: '14px' }}>
+                ℹ️ Al confirmar, se registrará tu pedido en nuestro sistema y <strong>se abrirá WhatsApp automáticamente</strong> para enviarnos los detalles y coordinar el pago.
+              </p>
             </div>
 
             <button
               type="submit"
-              className="btn btn-primary btn-block"
+              className="btn btn-primary btn-block whatsapp-btn"
               disabled={loading}
+              style={{ backgroundColor: '#25D366', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
             >
-              {loading ? 'Procesando...' : 'Completar Compra'}
+              <span>📱</span> {loading ? 'Procesando...' : 'Confirmar y Abrir WhatsApp'}
             </button>
           </form>
 

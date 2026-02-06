@@ -12,14 +12,12 @@ from pathlib import Path
 
 router = APIRouter(prefix="/admin", tags=["admin"])
 
-# Carpeta para guardar las imágenes
-UPLOAD_DIR = Path("uploads/products")
-# Carpeta para guardar los PDFs
-UPLOAD_BOOKS_DIR = Path("uploads/books")
+import base64
 
+# ... imports ...
 
-# Dependency para obtener el admin actual
 async def verify_admin(authorization: str = Header(None), db: Session = Depends(get_db)):
+    # ... existing verify_admin logic ... (omitted for brevity in replacement if possible, but replace needs context)
     """Verificar que el usuario es admin"""
     if not authorization:
         raise HTTPException(
@@ -48,38 +46,36 @@ async def upload_image(
     file: UploadFile = File(...),
     current_admin: Admin = Depends(verify_admin)
 ):
-    """Subir imagen de producto"""
+    """Subir imagen de producto (retorna Base64)"""
     
     # Validar que sea imagen
-    allowed_extensions = {".jpg", ".jpeg", ".png", ".gif", ".webp"}
-    file_extension = Path(file.filename).suffix.lower()
-    
-    if file_extension not in allowed_extensions:
-        raise HTTPException(
-            status_code=400,
-            detail=f"Solo se permiten: {', '.join(allowed_extensions)}"
-        )
-    
-    # Crear nombre único
-    import uuid
-    unique_filename = f"{uuid.uuid4()}{file_extension}"
-    file_path = UPLOAD_DIR / unique_filename
-    
-    # Asegurar que el directorio existe
-    UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+    allowed_types = {"image/jpeg", "image/png", "image/gif", "image/webp"}
+    if file.content_type not in allowed_types:
+         # Fallback check extension if content_type is octet-stream
+         if not any(file.filename.lower().endswith(ext) for ext in [".jpg", ".jpeg", ".png", ".gif", ".webp"]):
+            raise HTTPException(
+                status_code=400,
+                detail="Solo se permiten imágenes (JPG, PNG, GIF, WEBP)"
+            )
     
     try:
-        # Guardar archivo
-        with open(file_path, "wb") as buffer:
-            shutil.copyfileobj(file.file, buffer)
+        # Leer archivo en memoria
+        content = await file.read()
         
-        # Retornar ruta relativa
+        # Codificar a Base64
+        encoded = base64.b64encode(content).decode("utf-8")
+        
+        # Crear Data URI
+        mime_type = file.content_type or "image/jpeg"
+        data_uri = f"data:{mime_type};base64,{encoded}"
+        
+        # Retornar como "url"
         return {
-            "url": f"/uploads/products/{unique_filename}",
-            "filename": unique_filename
+            "url": data_uri,
+            "filename": file.filename
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error al guardar imagen: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error al procesar imagen: {str(e)}")
 
 
 @router.post("/upload-book")
@@ -87,7 +83,7 @@ async def upload_book(
     file: UploadFile = File(...),
     current_admin: Admin = Depends(verify_admin)
 ):
-    """Subir PDF del libro"""
+    """Subir PDF del libro (retorna Base64)"""
     
     # Validar que sea PDF
     if file.content_type != "application/pdf" and not file.filename.lower().endswith(".pdf"):
@@ -96,43 +92,23 @@ async def upload_book(
             detail="Solo se permiten archivos PDF"
         )
     
-    # Validar tamaño (máx 50MB para PDFs)
-    file_size = 0
-    max_size = 50 * 1024 * 1024  # 50MB
-    
-    # Crear nombre único
-    import uuid
-    unique_filename = f"{uuid.uuid4()}.pdf"
-    file_path = UPLOAD_BOOKS_DIR / unique_filename
-    
-    # Asegurar que el directorio existe
-    UPLOAD_BOOKS_DIR.mkdir(parents=True, exist_ok=True)
-    
     try:
-        # Guardar archivo
-        with open(file_path, "wb") as buffer:
-            while True:
-                chunk = await file.read(1024 * 1024)  # 1MB chunks
-                if not chunk:
-                    break
-                file_size += len(chunk)
-                if file_size > max_size:
-                    file_path.unlink()  # Eliminar archivo parcial
-                    raise HTTPException(
-                        status_code=413,
-                        detail="Archivo demasiado grande (máximo 50MB)"
-                    )
-                buffer.write(chunk)
+        # Leer archivo en memoria
+        content = await file.read()
         
-        # Retornar ruta relativa
+        # Codificar a Base64
+        encoded = base64.b64encode(content).decode("utf-8")
+        
+        # Crear Data URI
+        data_uri = f"data:application/pdf;base64,{encoded}"
+        
+        # Retornar como "url"
         return {
-            "url": f"/uploads/books/{unique_filename}",
-            "filename": unique_filename
+            "url": data_uri,
+            "filename": file.filename
         }
     except Exception as e:
-        if file_path.exists():
-            file_path.unlink()
-        raise HTTPException(status_code=500, detail=f"Error al guardar PDF: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error al procesar PDF: {str(e)}")
 
 
 @router.get("/products", response_model=list[ProductSchema])

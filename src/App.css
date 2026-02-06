@@ -9,17 +9,3 @@ main {
   min-height: calc(100vh - 70px);
   width: 100%;
 }
-
-@media (max-width: 768px) {
-  main {
-    margin-top: 60px;
-    min-height: calc(100vh - 60px);
-  }
-}
-
-@media (max-width: 480px) {
-  main {
-    margin-top: 56px;
-    min-height: calc(100vh - 56px);
-  }
-}

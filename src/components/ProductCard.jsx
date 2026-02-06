@@ -14,7 +14,7 @@ function ProductCard({ product, onAddToCart }) {
       </div>
       <div className="product-info">
         <h3>{product.name}</h3>
-        <p className="product-type">{product.type === 'book' ? 'Libro PDF' : 'Cuadro'}</p>
+        <p className="product-type">{product.type === 'book' ? 'Libro' : 'Cuadro'}</p>
         <p className="product-description">{product.description}</p>
         <div className="product-footer">
           <span className="product-price">

@@ -56,7 +56,7 @@ function Products({ setCartCount }) {
     <main className="products-page">
       <div className="container">
         <h1>Nuestros Productos</h1>
-        
+
         <div className="filters">
           <button
             className={`filter-btn ${filter === 'all' ? 'active' : ''}`}
@@ -74,7 +74,7 @@ function Products({ setCartCount }) {
             className={`filter-btn ${filter === 'book' ? 'active' : ''}`}
             onClick={() => setFilter('book')}
           >
-            Libros PDF
+            Libros
           </button>
         </div>
 
