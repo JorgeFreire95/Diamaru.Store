@@ -1,0 +1,25 @@
+{
+  "name": "Diamaru Store - Ecommerce",
+  "description": "Tienda online para venta de cuadros y libros en PDF",
+  "version": "1.0.0",
+  "author": "Tu Nombre",
+  "license": "MIT",
+  "private": true,
+  "frontend": {
+    "path": "./frontend",
+    "tech": "React 18 + Vite",
+    "port": 3000,
+    "build": "npm run build"
+  },
+  "backend": {
+    "path": "./backend",
+    "tech": "FastAPI + SQLAlchemy",
+    "port": 8000,
+    "requirements": "requirements.txt"
+  },
+  "database": {
+    "type": "SQLite",
+    "file": "diamaru.db",
+    "location": "./backend"
+  }
+}

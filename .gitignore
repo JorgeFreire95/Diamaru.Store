@@ -1,0 +1,182 @@
+# Dependencias
+node_modules/
+package-lock.json
+npm-debug.log
+yarn.lock
+
+# Build y distribución
+dist/
+build/
+*.egg-info/
+.pytest_cache/
+
+# Entorno virtual Python
+venv/
+.venv/
+env/
+ENV/
+backend/venv/
+backend/.venv/
+
+# Archivos compilados Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Variables de entorno
+.env
+.env.local
+.env.*.local
+backend/.env
+backend/.env.local
+
+# Bases de datos
+*.db
+*.sqlite
+*.sqlite3
+test.db
+ecommerce.db
+backend/test.db
+backend/ecommerce.db
+
+# Logs
+*.log
+logs/
+npm-debug.log*
+pip-log.txt
+pip-delete-this-directory.txt
+
+# IDE y editores
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+*.sublime-project
+*.sublime-workspace
+.vim/
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Archivos temporales
+*.tmp
+*.temp
+*.bak
+*.backup
+*~
+.cache/
+
+# Carpeta uploads (archivos subidos por usuarios)
+backend/uploads/
+uploads/
+
+# Testing
+.coverage
+htmlcov/
+.pytest_cache/
+.tox/
+
+# Desarrollo
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Node alternative package managers
+yarn-error.log
+pnpm-lock.yaml
+
+# IDEs específicos
+*.vscode/
+.vs/
+.vim/
+
+# Archivos de sistema operativo
+.AppleDouble
+.LSOverride
+*.cab
+*.msi
+*.msix
+*.msinstaller
+*.exe
+*.dll
+
+# Carpeta node_modules (redundante pero específico)
+node_modules/
+**/node_modules/
+
+# Archivos de configuración local
+local.json
+secret.json
+
+# Estadísticas de webpack
+webpack-stats.json
+
+# Archivos de bloqueo
+Gemfile.lock
+Pipfile.lock
+
+# Carpetas de caché
+.cache/
+.parcel-cache/
+dist/
+
+# Python eggs
+dist/
+*.egg
+*.egg-info/
+.eggs/
+
+# Archivos de prueba locales
+test-results/
+test-output/
+
+# Archivos de sesión
+.session
+
+# Archivos de configuración de proyecto que no deben sincronizarse
+.projectId
+
+# Credenciales o tokens locales
+.credentials
+tokens.json
+
+# Archivos de configuración específicos del usuario
+personal-config.json
+user-settings.json
+
+# Historial de comandos
+.bash_history
+.zsh_history
+
+# Archivos temporales de editor
+*.swp
+*.swo
+.#*
+
+# Directorios compilados
+build/
+dist/
+
+# Archivos de configuración de sistemas
+.env.production
+.env.staging
+
+# Versiones específicas de dependencias locales
+vendor/
+
+# Caché de npm/yarn
+.npm
+.yarn/cache
+.yarn/build-state.yml
+.yarn/install-state.gz

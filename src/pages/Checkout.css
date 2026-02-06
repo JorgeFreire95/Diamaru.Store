@@ -1,0 +1,161 @@
+.checkout-page {
+  padding: 40px 0;
+}
+
+.checkout-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 30px;
+}
+
+@media (max-width: 1024px) {
+  .checkout-grid {
+    grid-template-columns: 1fr 300px;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .checkout-page {
+    padding: 30px 0;
+  }
+  
+  .checkout-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .checkout-form {
+    padding: 20px;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .checkout-page {
+    padding: 20px 0;
+  }
+  
+  .checkout-form {
+    padding: 15px;
+  }
+  
+  .checkout-form h2 {
+    font-size: 16px;
+    margin-top: 15px;
+    margin-bottom: 12px;
+  }
+  
+  .checkout-form input {
+    padding: 10px;
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+  
+  .btn-block {
+    padding: 12px;
+    margin-top: 15px;
+    font-size: 14px;
+  }
+  
+  .checkout-summary {
+    padding: 15px;
+  }
+  
+  .checkout-summary h2 {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 320px) {
+  .checkout-form {
+    padding: 12px;
+  }
+  
+  .checkout-form h2 {
+    font-size: 14px;
+  }
+  
+  .checkout-form input {
+    padding: 8px;
+  }
+}
+
+.checkout-form {
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.checkout-form h2 {
+  margin-top: 20px;
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+
+.checkout-form h2:first-child {
+  margin-top: 0;
+}
+
+.checkout-form input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  margin-bottom: 15px;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.checkout-form input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.form-row input {
+  margin-bottom: 0;
+}
+
+.btn-block {
+  width: 100%;
+  padding: 14px;
+  margin-top: 20px;
+}
+
+.checkout-summary {
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  height: fit-content;
+}
+
+.checkout-summary h2 {
+  margin-bottom: 15px;
+}
+
+.checkout-summary p {
+  color: #666;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .checkout-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}

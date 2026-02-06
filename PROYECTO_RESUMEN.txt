@@ -1,0 +1,194 @@
+## 🎨 DIAMARU STORE - RESUMEN DEL PROYECTO
+
+He creado una **plataforma ecommerce completa** para la venta de cuadros y libros en PDF. Aquí está todo lo que se incluye:
+
+---
+
+### ✅ FRONTEND (React + Vite)
+
+**Componentes incluidos:**
+- `Navbar.jsx` - Barra de navegación con carrito
+- `ProductCard.jsx` - Tarjeta de producto reutilizable
+- `Home.jsx` - Página de inicio
+- `Products.jsx` - Catálogo con filtros
+- `ProductDetail.jsx` - Detalle de producto
+- `Cart.jsx` - Carrito de compras
+- `Checkout.jsx` - Formulario de compra
+
+**Funcionalidades:**
+- ✅ Listar productos
+- ✅ Filtrar por tipo (Cuadros/Libros)
+- ✅ Ver detalle de producto
+- ✅ Agregar al carrito
+- ✅ Gestionar carrito
+- ✅ Proceso de checkout
+- ✅ Almacenamiento local (localStorage)
+- ✅ Diseño responsive
+
+---
+
+### ✅ BACKEND (FastAPI + SQLAlchemy)
+
+**Endpoints API:**
+- `GET /products` - Listar todos
+- `GET /products?type=book` - Filtrar
+- `GET /products/{id}` - Detalle
+- `POST /products` - Crear
+- `GET /orders` - Listar órdenes
+- `POST /orders` - Crear orden
+- `GET /health` - Status
+
+**Características:**
+- ✅ Validación con Pydantic
+- ✅ Base de datos SQLite
+- ✅ CORS habilitado
+- ✅ Documentación automática (Swagger)
+- ✅ Modelos SQLAlchemy
+
+---
+
+### 📊 BASE DE DATOS
+
+**Tablas:**
+- `products` - Catálogo de productos
+- `orders` - Historial de compras
+
+**Datos precargados:**
+- 3 Cuadros
+- 4 Libros PDF
+
+---
+
+### 📁 ARCHIVOS CREADOS
+
+```
+Diamaru.store/
+├── frontend/
+│   ├── src/
+│   │   ├── components/ (Navbar, ProductCard)
+│   │   ├── pages/ (Home, Products, ProductDetail, Cart, Checkout)
+│   │   ├── services/ (api.js)
+│   │   ├── App.jsx, main.jsx, index.css, App.css
+│   ├── package.json (React, Vite, Axios, etc)
+│   ├── vite.config.js
+│   ├── index.html
+│   ├── .env.example
+│   ├── .gitignore
+│   └── README.md
+│
+├── backend/
+│   ├── app/
+│   │   ├── models/ (Product, Order)
+│   │   ├── routes/ (products.py, orders.py)
+│   │   ├── schemas.py
+│   │   └── __init__.py
+│   ├── main.py (Servidor FastAPI)
+│   ├── config.py (Configuración)
+│   ├── database.py (Setup BD)
+│   ├── seed.py (Datos iniciales)
+│   ├── add_products.py (Agregar más productos)
+│   ├── requirements.txt
+│   ├── .env.example
+│   ├── .gitignore
+│   └── README.md
+│
+├── README.md (Documentación completa)
+├── QUICK_START.md (Guía rápida)
+├── INSTALACION.md (Instrucciones detalladas)
+├── setup.py (Setup automático Python)
+├── setup.bat (Setup automático Windows)
+├── setup.sh (Setup automático Linux/Mac)
+└── project.json (Metadata)
+```
+
+---
+
+### 🚀 CÓMO EJECUTAR
+
+#### Opción 1: Automático (Recomendado)
+```bash
+python setup.py
+```
+o en Windows:
+```bash
+setup.bat
+```
+
+#### Opción 2: Manual
+
+**Terminal 1 - Backend:**
+```bash
+cd backend
+venv\Scripts\activate    # Windows
+python main.py
+```
+
+**Terminal 2 - Frontend:**
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+---
+
+### 🌐 ACCESO
+
+- **Frontend**: http://localhost:3000
+- **Backend**: http://localhost:8000
+- **API Docs**: http://localhost:8000/docs
+
+---
+
+### 🎯 CARACTERÍSTICAS IMPLEMENTADAS
+
+✅ Catálogo de productos
+✅ Filtros por tipo
+✅ Carrito de compras
+✅ Detalle de producto
+✅ Checkout
+✅ API RESTful
+✅ Base de datos
+✅ Diseño responsive
+✅ Componentes reutilizables
+✅ Documentación completa
+
+---
+
+### 📝 TECNOLOGÍAS USADAS
+
+**Frontend:**
+- React 18
+- Vite
+- React Router
+- Axios
+- CSS3
+
+**Backend:**
+- FastAPI
+- SQLAlchemy
+- Pydantic
+- SQLite
+- Uvicorn
+
+---
+
+### 💡 PRÓXIMOS PASOS
+
+Puedes:
+1. Instalar y ejecutar el proyecto
+2. Personalizar colores y estilos
+3. Agregar más productos
+4. Integrar pagos (Stripe/PayPal)
+5. Agregar autenticación de usuarios
+6. Desplegar en producción
+
+---
+
+### 📚 DOCUMENTACIÓN
+
+Cada carpeta tiene su propio README.md con más detalles.
+
+---
+
+**¡Tu ecommerce está listo para usar!** 🎉
