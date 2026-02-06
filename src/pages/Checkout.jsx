@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { orderService } from '../services/api'
 import './Checkout.css'
 
-function Checkout() {
+function Checkout({ setCartCount }) {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
   // Estado inicial sin datos de tarjeta
@@ -61,6 +61,7 @@ function Checkout() {
 
       // 3. Limpiar carrito y redirigir
       localStorage.removeItem('cart')
+      setCartCount(0)
 
       // Abrir WhatsApp
       const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`

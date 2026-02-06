@@ -21,7 +21,14 @@ function ProductForm({ product, onSave, onCancel }) {
 
   useEffect(() => {
     if (product) {
-      setFormData(product)
+      setFormData({
+        title: product.name || product.title || '',
+        description: product.description || '',
+        price: product.price || '',
+        category: product.type || product.category || 'painting',
+        image_url: product.image_url || '',
+        file_url: product.file_url || ''
+      })
       setPreviewUrl(product.image_url)
     }
   }, [product])
