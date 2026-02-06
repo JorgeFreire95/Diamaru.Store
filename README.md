@@ -1,4 +1,4 @@
-# 🎨 Diamaru Store - Tienda de Cuadros y Libros PDF
+# 🎨 Diamaru Store - Tienda de Cuadros y Libros Digitales
 
 Plataforma ecommerce moderna para la venta de **cuadros digitales** y **libros en formato PDF**. Aplicación full-stack desarrollada con **React + Vite** (frontend) y **Python FastAPI** (backend), con diseño completamente responsivo y funcionalidad de administración.
 
